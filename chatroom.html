@@ -5,6 +5,7 @@
   <script>
     // WebSocket implementation for real-time communication
     const socket = new WebSocket(`ws://${location.host}`);
+    
     socket.onmessage = event => {
       const message = event.data;
       const chatMessages = document.getElementById('chatMessages');
@@ -17,7 +18,7 @@
       const input = document.getElementById('messageInput');
       const message = input.value.trim();
       if (message !== '') {
-        socket.send(String(message)); // Convert message to string
+        socket.send(message);
         input.value = '';
       }
     }
