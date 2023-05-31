@@ -7,7 +7,8 @@
     const socket = new WebSocket(`ws://${location.host}`);
     
     socket.onmessage = event => {
-      const message = event.data;
+      const data = JSON.parse(event.data); // Parse the data if it is in JSON format
+      const message = data.message; // Extract the desired message property
       const chatMessages = document.getElementById('chatMessages');
       const newMessage = document.createElement('p');
       newMessage.textContent = message;
