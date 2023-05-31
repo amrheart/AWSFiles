@@ -17,7 +17,7 @@
       const input = document.getElementById('messageInput');
       const message = input.value.trim();
       if (message !== '') {
-        socket.send(message);
+        socket.send(String(message)); // Convert message to string
         input.value = '';
       }
     }
