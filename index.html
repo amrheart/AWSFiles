@@ -10,25 +10,22 @@
     <button onclick="sendMessage()">Send</button>
 
     <script>
-        function sendMessage() {
-            var message = $('#message-input').val();
-            $.post('/send_message', {message: message}, function(data) {
-                $('#message-input').val('');
-            });
-        }
+    function sendMessage() {
+        var message = $('#message-input').val();
+        $.post('/send_message', {message: message}, function(data) {
+            $('#message-input').val('');
+            displayMessages(data.messages);
+        });
+    }
 
-        function getMessages() {
-            $.get('/get_messages', function(data) {
-                var messages = data.messages;
-                var messageContainer = $('#message-container');
-                messageContainer.empty();
-                for (var i = 0; i < messages.length; i++) {
-                    messageContainer.append('<p>' + messages[i] + '</p>');
-                }
-            });
+    function displayMessages(messages) {
+        var messageContainer = $('#message-container');
+        messageContainer.empty();
+        for (var i = 0; i < messages.length; i++) {
+            messageContainer.append('<p>' + messages[i] + '</p>');
         }
-
-        setInterval(getMessages, 1000);
+    }
     </script>
+
 </body>
 </html>
