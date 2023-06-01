@@ -3,7 +3,6 @@
 <head>
     <title>Two-Way Chat Room</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.3.2/socket.io.min.js"></script>
 </head>
 <body>
     <div id="message-container"></div>
@@ -11,39 +10,23 @@
     <button onclick="sendMessage()">Send</button>
 
     <script>
-        var socket = io();
-
-        socket.on('connect', function() {
-            socket.emit('get_messages');
-        });
-
-        socket.on('all_messages', function(messages) {
-            displayMessages(messages);
-        });
-
-        socket.on('new_message', function(message) {
-            displayMessage(message);
-        });
-
-        function sendMessage() {
-            var message = $('#message-input').val();
-            socket.emit('send_message', message);
+    function sendMessage() {
+        var message = $('#message-input').val();
+        $.post('/send_message', {message: message}, function(data) {
             $('#message-input').val('');
-        }
+            displayMessages(data.messages);
+        });
+    }
 
-        function displayMessage(message) {
-            var messageContainer = $('#message-container');
-            messageContainer.append('<p>' + message + '</p>');
+    function displayMessages(messages) {
+        var messageContainer = $('#message-container');
+        messageContainer.empty();
+        for (var i = 0; i < messages.length; i++) {
+            messageContainer.append('<p>' + messages[i] + '</p>');
         }
-
-        function displayMessages(messages) {
-            var messageContainer = $('#message-container');
-            messageContainer.empty();
-            for (var i = 0; i < messages.length; i++) {
-                messageContainer.append('<p>' + messages[i] + '</p>');
-            }
-        }
+    }
     </script>
+
 
 
 </body>
