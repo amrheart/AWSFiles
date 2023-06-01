@@ -11,7 +11,7 @@ def home():
 def send_message():
     message = request.form['message']
     messages.append(message)
-    return jsonify({'message': message})
+    return jsonify({'message': message, 'messages': messages})
 
 @app.route('/get_messages', methods=['GET'])
 def get_messages():
