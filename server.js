@@ -54,9 +54,10 @@ wss.on('connection', ws => {
 });
 
 function broadcastMessage(message) {
-  const serializedMessage = JSON.stringify(message); // Serialize the message
-  for (const client of clients) {
-    client.send(serializedMessage);
-  }
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(message));
+    }
+  });
 }
 
